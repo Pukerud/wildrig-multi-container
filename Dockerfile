@@ -2,8 +2,8 @@ FROM ubuntu:22.04@sha256:b8b6ee6aa931ecd9d0d952abc34dc0e5f7c6a30c6bb71b079fe399f
 
 LABEL org.opencontainers.image.source="https://github.com/Pukerud/wildrig-multi-container"
 
-ARG WILDRIG_VERSION=0.51.2
-ARG WILDRIG_SHA256=da1463dcd3444687c7b29b1351e5bd2cb6b7fe204254f12cfac9796a17615c37
+ARG WILDRIG_VERSION=0.51.3
+ARG WILDRIG_SHA256=85db1069b807d78b2a766dcceb8b92c0745ac4e1315a400d6ebdcc1832b25e27
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -20,5 +20,6 @@ RUN apt-get update \
 
 WORKDIR /opt/wildrig
 COPY entrypoint.sh /opt/wildrig/entrypoint.sh
-RUN chmod 0755 /opt/wildrig/entrypoint.sh
+RUN sed -i 's/\r$//' /opt/wildrig/entrypoint.sh \
+    && chmod 0755 /opt/wildrig/entrypoint.sh
 ENTRYPOINT ["/opt/wildrig/entrypoint.sh"]
